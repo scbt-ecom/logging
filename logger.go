@@ -15,17 +15,24 @@ type Logger struct {
 	*logrus.Entry
 }
 
-func InitLogger() *Logger {
+func InitLogger(logLevel string) *Logger {
+	SetupLogger(logLevel)
 	return &Logger{e}
 }
 
-func init() {
+func SetupLogger(logLevel string) {
 	//Logger instance creating
 	l := logrus.New()
 
+	level, err := logrus.ParseLevel(logLevel)
+	if err != nil {
+		l.WithError(err).Fatal("failed to parse level")
+	}
+
+	l.SetLevel(level)
+
 	//Logger instance settings
 	l.SetReportCaller(true)
-	l.SetLevel(logrus.TraceLevel)
 	l.SetOutput(io.Discard)
 	l.Formatter = &logrus.TextFormatter{
 		DisableColors:   true,

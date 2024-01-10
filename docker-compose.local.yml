@@ -16,6 +16,7 @@ services:
     command: mongod --quiet --logpath /dev/null
 
   elasticsearch:
+    container_name: elasticsearch
     image: elasticsearch:7.17.7
     environment:
       http.host: 0.0.0.0

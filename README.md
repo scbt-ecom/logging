@@ -2,13 +2,14 @@
 
 ## Getting started
 ```bash
-go get ...
+go get github.com/skbt-ecom/logging
 ```
 ## Development
 
 ### Logger initialization
+
 ```
-log := logging.InitLogger()
+log := logging.InitLogger(<logLevel>)
 ```
 
 ### Adding a hook for graylog
