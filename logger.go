@@ -47,7 +47,7 @@ func init() {
 func (l *Logger) SetLevel(logLevel string) {
 	level, err := logrus.ParseLevel(logLevel)
 	if err != nil {
-		l.WithError(err).Fatal("failed to set logger level")
+		l.WithError(err).Fatalf("failed to set logger level: %s", logLevel)
 	}
 
 	l.Logger.SetLevel(level)
