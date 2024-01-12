@@ -16,25 +16,18 @@ type Logger struct {
 }
 
 func InitLogger(logLevel string) *Logger {
-	SetupLogger(logLevel)
 	return &Logger{e}
 }
 
-func SetupLogger(logLevel string) {
+func init() {
 	//Logger instance creating
-	l := logrus.New()
-
-	level, err := logrus.ParseLevel(logLevel)
-	if err != nil {
-		l.WithError(err).Fatal("failed to parse level")
-	}
-
-	l.SetLevel(level)
+	log := logrus.New()
 
 	//Logger instance settings
-	l.SetReportCaller(true)
-	l.SetOutput(io.Discard)
-	l.Formatter = &logrus.TextFormatter{
+	log.SetLevel(logrus.TraceLevel)
+	log.SetReportCaller(true)
+	log.SetOutput(io.Discard)
+	log.Formatter = &logrus.TextFormatter{
 		DisableColors:   true,
 		FullTimestamp:   true,
 		TimestampFormat: "03:04:05 02/01/2006",
@@ -43,10 +36,19 @@ func SetupLogger(logLevel string) {
 		},
 	}
 
-	l.AddHook(&writerHook{
+	log.AddHook(&writerHook{
 		Writer:    []io.Writer{os.Stdout},
 		LogLevels: logrus.AllLevels,
 	})
 
-	e = logrus.NewEntry(l)
+	e = logrus.NewEntry(log)
+}
+
+func SetLevel(log *Logger, logLevel string) {
+	level, err := logrus.ParseLevel(logLevel)
+	if err != nil {
+		log.WithError(err).Fatal("failed to set logger level")
+	}
+
+	log.Logger.SetLevel(level)
 }
