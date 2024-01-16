@@ -13,7 +13,7 @@ log := logging.InitLogger()
 ```
 
 ### Set log level
-#### Optional method, default log level - Trace
+#### Optionally, default log level - Trace
 ```
 log.SetLevel(<logLevel>)
 ```
