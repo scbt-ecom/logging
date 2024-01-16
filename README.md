@@ -9,7 +9,13 @@ go get github.com/skbt-ecom/logging
 ### Logger initialization
 
 ```
-log := logging.InitLogger(<logLevel>)
+log := logging.InitLogger()
+```
+
+### Set log level
+#### Optional method, default log level - Trace
+```
+log.SetLevel(<logLevel>)
 ```
 
 ### Adding a hook for graylog
