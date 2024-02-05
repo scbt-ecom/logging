@@ -60,5 +60,5 @@ func (l *Logger) WithExtraField(key string, value any) Logger {
 type Fields logrus.Fields
 
 func (l *Logger) WithExtraFields(fields Fields) Logger {
-	return Logger{e.WithFields(logrus.Fields(fields))}
+	return Logger{l.WithFields(logrus.Fields(fields))}
 }
