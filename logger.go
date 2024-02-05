@@ -53,12 +53,12 @@ func (l *Logger) SetLevel(logLevel string) {
 	l.Logger.SetLevel(level)
 }
 
-func (l *Logger) WithExtraField(key string, value any) Logger {
-	return Logger{l.WithField(key, value)}
+func (l *Logger) WithExtraField(key string, value any) *Logger {
+	return &Logger{l.WithField(key, value)}
 }
 
 type Fields logrus.Fields
 
-func (l *Logger) WithExtraFields(fields Fields) Logger {
-	return Logger{l.WithFields(logrus.Fields(fields))}
+func (l *Logger) WithExtraFields(fields Fields) *Logger {
+	return &Logger{l.WithFields(logrus.Fields(fields))}
 }
