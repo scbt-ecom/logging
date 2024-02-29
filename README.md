@@ -20,5 +20,5 @@ log.SetLevel(<logLevel>)
 
 ### Adding a hook for graylog
 ```
-logging.AddGraylogHook(log, <graylogUrl>, <containerName>)
+log.AddGraylogHook(<graylogUrl>, <containerName>)
 ```
