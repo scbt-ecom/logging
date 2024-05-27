@@ -25,13 +25,21 @@ func init() {
 
 	//Logger instance settings
 	l.SetLevel(logrus.TraceLevel)
-	l.SetReportCaller(true)
 	l.SetOutput(io.Discard)
+	l.SetReportCaller(true)
+
 	l.Formatter = &logrus.TextFormatter{
 		DisableColors:   true,
 		FullTimestamp:   true,
 		TimestampFormat: "03:04:05 02/01/2006",
-		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
+		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
+			pc := make([]uintptr, 4)
+			count := runtime.Callers(10, pc)
+
+			frames := runtime.CallersFrames(pc[:count])
+
+			frames.Next()
+			frame, _ := frames.Next()
 			return fmt.Sprintf("%s()", frame.Function), fmt.Sprintf("%s:%d", path.Base(frame.File), frame.Line)
 		},
 	}
