@@ -1,12 +1,9 @@
 package logging
 
 import (
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"io"
 	"os"
-	"path"
-	"runtime"
 )
 
 var e *logrus.Entry
@@ -32,16 +29,7 @@ func init() {
 		DisableColors:   true,
 		FullTimestamp:   true,
 		TimestampFormat: "03:04:05 02/01/2006",
-		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
-			pc := make([]uintptr, 4)
-			count := runtime.Callers(10, pc)
-
-			frames := runtime.CallersFrames(pc[:count])
-
-			frames.Next()
-			frame, _ := frames.Next()
-			return fmt.Sprintf("%s()", frame.Function), fmt.Sprintf("%s:%d", path.Base(frame.File), frame.Line)
-		},
+		//CallerPrettyfier: caller(),
 	}
 
 	l.AddHook(&writerHook{
@@ -70,3 +58,20 @@ type Fields logrus.Fields
 func (l *Logger) WithExtraFields(fields Fields) *Logger {
 	return &Logger{l.WithFields(logrus.Fields(fields))}
 }
+
+//func caller() func(*runtime.Frame) (function string, file string) {
+//	return func(f *runtime.Frame) (function string, file string) {
+//		p, _ := os.Getwd()
+//
+//		return "", fmt.Sprintf("%s:%d", strings.TrimPrefix(f.File, p), f.Line)
+//	}
+//}
+//
+//func (l *Logger) SetFormatter() {
+//	l.Logger.SetFormatter(&logrus.TextFormatter{
+//		DisableColors:    true,
+//		FullTimestamp:    true,
+//		TimestampFormat:  "03:04:05 02/01/2006",
+//		CallerPrettyfier: caller(),
+//	})
+//}
