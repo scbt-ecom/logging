@@ -2,7 +2,7 @@
 
 ## Getting started
 ```bash
-go get github.com/skbt-ecom/logging@v1.1.4
+go get github.com/skbt-ecom/logging@v1.1.6
 ```
 ## Development
 
