@@ -1,9 +1,12 @@
 package logging
 
 import (
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"io"
 	"os"
+	"path"
+	"runtime"
 )
 
 var e *logrus.Entry
@@ -29,7 +32,9 @@ func init() {
 		DisableColors:   true,
 		FullTimestamp:   true,
 		TimestampFormat: "03:04:05 02/01/2006",
-		//CallerPrettyfier: caller(),
+		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
+			return fmt.Sprintf("%s()", f.Function), fmt.Sprintf("%s:%d", path.Base(f.File), f.Line)
+		},
 	}
 
 	l.AddHook(&writerHook{
