@@ -28,9 +28,7 @@ func init() {
 	l.SetOutput(io.Discard)
 	l.SetReportCaller(true)
 
-	l.Formatter = &logrus.TextFormatter{
-		DisableColors:   true,
-		FullTimestamp:   true,
+	l.Formatter = &logrus.JSONFormatter{
 		TimestampFormat: "03:04:05 02/01/2006",
 		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
 			return fmt.Sprintf("%s()", f.Function), fmt.Sprintf("%s:%d", path.Base(f.File), f.Line)
@@ -72,9 +70,7 @@ func (l *Logger) WithExtraFields(fields Fields) *Logger {
 //		}
 //	}
 func (l *Logger) SetFormatter() {
-	l.Logger.SetFormatter(&logrus.TextFormatter{
-		DisableColors:   true,
-		FullTimestamp:   true,
+	l.Logger.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat: "03:04:05 02/01/2006",
 		CallerPrettyfier: func(f *runtime.Frame) (string, string) {
 			return fmt.Sprintf("%s()", f.Function), fmt.Sprintf("%s:%d", path.Base(f.File), f.Line)
